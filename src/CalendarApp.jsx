@@ -1,5 +1,11 @@
+import { Outlet } from 'react-router-dom'
+import { Navbar } from './calendar/components/NavBar'
+
 export const CalendarApp = () => {
   return (
-    <h1>CalendarApp</h1>
+    <div>
+      <Navbar />
+      <Outlet />
+    </div>
   )
 }
