@@ -1,13 +1,17 @@
 import { Calendar } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { localizer } from '../../helpers/calendarLocalizer'
-import { eventsMock } from '../../mocks/eventsMock'
 import { getMessagesES } from '../../helpers/getMessages'
 import { CalendarEvent } from '../components/CalendarEvent'
 import { useEffect, useState } from 'react'
 import { CalendarModal } from '../components/CalendarModal'
+import { useUiStore } from '../../hooks/useUiStore'
+import { useCalendarStore } from '../../hooks/useCalendarStore'
 
 export const CalendarPage = () => {
+  const { openDateModal } = useUiStore()
+  const { events, setActiveEvent } = useCalendarStore()
+
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
   useEffect(() => {
@@ -28,12 +32,14 @@ export const CalendarPage = () => {
     return { style }
   }
 
-  const onDoubleClick = (event) => {
-    console.log({ doubleClick: event })
+  const onDoubleClick = () => {
+    // console.log({ doubleClick: event })
+    openDateModal()
   }
 
   const onSelect = (event) => {
-    console.log({ selectEvent: event })
+    // console.log({ selectEvent: event })
+    setActiveEvent(event)
   }
 
   const onViewChange = (event) => {
@@ -47,7 +53,7 @@ export const CalendarPage = () => {
         messages={getMessagesES()}
         culture='es-ES'
         localizer={localizer}
-        events={eventsMock}
+        events={events}
         defaultView={lastView}
         startAccessor='start'
         endAccessor='end'
